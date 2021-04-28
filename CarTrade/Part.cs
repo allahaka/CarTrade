@@ -15,5 +15,9 @@ namespace CarTrade
             this.needRepairing = needRepairing;
             this.valueIncrease = valueIncrease;
         }
+
+        public void Repair() {
+            this.needRepairing = false;
+        }
     }
 }
