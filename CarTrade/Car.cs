@@ -17,11 +17,7 @@ namespace CarTrade
         public string owner;
 
         //parts for car
-        public Part Break;
-        public Part Suspension;
-        public Part Engine;
-        public Part Body;
-        public Part Gearbox;
+        public Part[] parts;
 
         //helper method
         private bool needRepairing()
@@ -31,31 +27,28 @@ namespace CarTrade
         }
 
         private void createParts() {
-            this.Break = new Part("Break", needRepairing(), 10);
-            this.Suspension = new Part("Suspension", needRepairing(), 20);
-            this.Engine = new Part("Engine", needRepairing(), 100);
-            this.Body = new Part("Body", needRepairing(), 50);
-            this.Gearbox = new Part("Gearbox", needRepairing(), 50);
+            this.parts[0] = new Part("Break", needRepairing(), 10);
+            this.parts[1] = new Part("Suspension", needRepairing(), 20);
+            this.parts[2] = new Part("Engine", needRepairing(), 100);
+            this.parts[3] = new Part("Body", needRepairing(), 50);
+            this.parts[4] = new Part("Gearbox", needRepairing(), 50);
         }
 
         private decimal finalPrice() {
             decimal final = this.value;
-            final = this.Break.needRepairing ? final + this.value * this.Break.valueIncrease : final;
-            final = this.Suspension.needRepairing ? final + this.value * this.Suspension.valueIncrease : final;
-            final = this.Engine.needRepairing ? final + this.value * this.Engine.valueIncrease : final;
-            final = this.Body.needRepairing ? final + this.value * this.Body.valueIncrease : final;
-            final = this.Gearbox.needRepairing ? final + this.value * this.Gearbox.valueIncrease : final;
+            for (int i = 0; i < 5; i++) {
+                final = this.parts[i].needRepairing ? final + this.value * this.parts[i].valueIncrease : final;
+            }
             return final;
         }
 
         private string[] displayCar() {
             string firstLine = $"The {this.colour} {this.brand} \n {this.type} car out of {this.segment} segment.";
             string secondLine = $"Price: {this.finalPrice()}";
-            string parts = $"Breaks: {(this.Break.needRepairing ? "Repair is needed" : "Perfect")} " +
-                $"\n Suspension: {(this.Suspension.needRepairing ? "Repair is needed" : "Perfect")} " +
-                $"\n Engine: {(this.Engine.needRepairing ? "Repair is needed" : "Perfect")} " +
-                $"\n Body: {(this.Body.needRepairing ? "Repair is needed" : "Perfect")} " +
-                $"\n Gearbox: {(this.Gearbox.needRepairing ? "Repair is needed" : "Perfect")} ";
+            string parts = "";
+            for (int i = 0; i < 5; i++) {
+                parts += $"{this.parts[i]}: {(this.parts[i].needRepairing ? "Repair is needed" : "Perfect")} \n";
+            }
             return new String[3] {firstLine, secondLine, parts};
         }
 
