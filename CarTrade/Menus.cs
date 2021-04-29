@@ -6,6 +6,10 @@ namespace CarTrade
 {
     class Menus
     {
+        public void Clean() {
+            Console.Clear();
+        }
+
         public void MainMenu() {
             Console.WriteLine("1. [B]uy a car                           2. [V]iew Owned cars");
             Console.WriteLine("3. [R]epair a car                        4. Buy an [A]d");
@@ -15,27 +19,35 @@ namespace CarTrade
 
             switch (ck.Key) {
                 case ConsoleKey.B:
+                    Clean();
                     this.BuyCarMenu();
                     break;
                 case ConsoleKey.V:
+                    Clean();
                     this.ViewOwnedCarsMenu();
                     break;
                 case ConsoleKey.R:
+                    Clean();
                     this.RepairCarMenu();
                     break;
                 case ConsoleKey.A:
+                    Clean();
                     this.BuyAdMenu();
                     break;
                 case ConsoleKey.S:
+                    Clean();
                     this.SellCarMenu();
                     break;
                 case ConsoleKey.C:
+                    Clean();
                     this.CheckAccountMenu();
                     break;
                 case ConsoleKey.H:
+                    Clean();
                     this.CheckHistoryMenu();
                     break;
                 case ConsoleKey.P:
+                    Clean();
                     this.CheckPaymentsMenu();
                     break;
             } 
