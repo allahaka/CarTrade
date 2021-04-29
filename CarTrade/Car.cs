@@ -12,10 +12,9 @@ namespace CarTrade
         public readonly string brand;
         public readonly decimal mileage;
         public readonly string colour;
-        public readonly string segment;
-        public readonly string type;
-        public readonly int cargoSpace;
-        public string owner;
+        public readonly string segment; //premium, standard, budget
+        public readonly string type; //cargo, normal, motorcycle
+        public readonly int cargoSpace; //0-not important, other for cargo
 
         //parts for car
         public Part[] parts;
@@ -35,7 +34,7 @@ namespace CarTrade
         private bool NeedRepairing()
         {
             Random rng = new Random();
-            return rng.Next(100) <= 50;
+            return rng.Next(100) <= 40;
         }
 
         public void CreateParts() {
