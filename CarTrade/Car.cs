@@ -27,7 +27,7 @@ namespace CarTrade
             this.segment = segment;
             this.type = type;
             this.cargoSpace = cargoSpace;
-            this.CreateParts();
+            CreateParts();
         }
 
         //helper method
@@ -38,27 +38,27 @@ namespace CarTrade
         }
 
         public void CreateParts() {
-            this.parts[0] = new Part("Break", NeedRepairing(), 10);
-            this.parts[1] = new Part("Suspension", NeedRepairing(), 20);
-            this.parts[2] = new Part("Engine", NeedRepairing(), 100);
-            this.parts[3] = new Part("Body", NeedRepairing(), 50);
-            this.parts[4] = new Part("Gearbox", NeedRepairing(), 50);
+            parts[0] = new Part("Break", NeedRepairing(), 10);
+            parts[1] = new Part("Suspension", NeedRepairing(), 20);
+            parts[2] = new Part("Engine", NeedRepairing(), 100);
+            parts[3] = new Part("Body", NeedRepairing(), 50);
+            parts[4] = new Part("Gearbox", NeedRepairing(), 50);
         }
 
         private decimal FinalPrice() {
-            decimal final = this.value;
+            decimal final = value;
             for (int i = 0; i < 5; i++) {
-                final = this.parts[i].needRepairing ? final + this.value * this.parts[i].valueIncrease : final;
+                final = parts[i].needRepairing ? final + value * parts[i].valueIncrease : final;
             }
             return final;
         }
 
         public string[] DisplayCar() {
-            string firstLine = $"The {this.colour} {this.brand} \n {this.type} car out of {this.segment} segment.";
-            string secondLine = $"Price: {this.FinalPrice()}";
+            string firstLine = $"The {colour} {brand} \n {type} car out of {segment} segment.";
+            string secondLine = $"Price: {FinalPrice()}";
             string parts = "Status of parts: \n";
             for (int i = 0; i < 5; i++) {
-                parts += $"{this.parts[i]}: {(this.parts[i].needRepairing ? "Repair is needed" : "Perfect")} \n";
+                parts += $"{parts[i]}: {(this.parts[i].needRepairing ? "Repair is needed" : "Perfect")} \n";
             }
             return new String[3] {firstLine, secondLine, parts};
         }
