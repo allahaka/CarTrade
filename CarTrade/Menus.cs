@@ -8,7 +8,7 @@ namespace CarTrade
     {
         public List<Player> players;
 
-        public void addPlayers(List<Player> players){
+        public void AddPlayers(List<Player> players){
             this.players = players;
         }
 
