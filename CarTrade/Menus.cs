@@ -10,6 +10,50 @@ namespace CarTrade
             Console.Clear();
         }
 
+        public List<string> StartGame(){
+            List<string> result = new List<string>();
+            int players;
+
+            Console.WriteLine("How many players: ");
+            
+            while (!int.TryParse(Console.ReadLine(), out players)) {
+                Console.WriteLine("Please Enter a valid numerical value:");
+            }
+
+            result.Add(players.ToString());
+
+            Clean();
+
+            for(int i=0; i<players; i++){
+                Console.WriteLine($"Enter the names of player{i}: ");
+                string name = Console.ReadLine();
+                result.Add(name);
+                Clean();
+            }
+
+            Console.WriteLine("On what difficulty you want to play? ([E]asy, [M]edium, [H]ard)");
+
+            while(true){
+                string a = Console.ReadLine().ToLower();
+                if( a == "e" || a == "easy"){
+                    result.Add("easy");
+                    break;
+                }else if(a == "m" || a == "medium") {
+                    result.Add("medium");
+                    break;
+                }else if(a == "h" || a == "hard"){
+                    result.Add("hard");
+                    break;
+                }else{
+                    Console.WriteLine("Wrong Input");
+                }
+            }
+
+            Clean();
+
+            return result;
+        }
+
         public void MainMenu() {
             Console.WriteLine("1. [B]uy a car                           2. [V]iew Owned cars");
             Console.WriteLine("3. [R]epair a car                        4. Buy an [A]d");
