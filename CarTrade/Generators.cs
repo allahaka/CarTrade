@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace CarTrade
@@ -11,10 +14,10 @@ namespace CarTrade
             string type = CarType();
             string segment = CarSegment();
             string brand = GenerateBrand(segment);
-            decimal value = 0.0m;
+            decimal value = GenerateBasePrice(segment, type);
             decimal mileage = RandomDecimal(new Random(), 6, 2);
-            string colour = "";
-            int cargoSpace = 0;
+            string colour = GetRandomColorName();
+            int cargoSpace = type == "cargo" ? RandomNumber(10000, 1000) : 0;
             Car car = new Car(value, brand, mileage, colour, segment, type, cargoSpace);
             car.CreateParts();
             return car;
@@ -49,8 +52,8 @@ namespace CarTrade
         public string GenerateBrand(string segment){
 
             string[] budget = new string[8] { "Fiat", "Honda", "Hyundai", "Kia", "Opel", "Peugeot", "Renault", "Toyota" };
-            string[] standard = new string[10] { "Audi", "BMW", "Chevrolet", "Ford", "Jeep", "Land Rover", "Lexus", "Mercedes-Benz", "Volkswagen", "Volvo" };
-            string[] premium = new string[9] { "Alfa Romeo", "Aston Martin", "Bugatti", "Dodge", "Ferrari", "Lamborghini", "McLaren", "Rolls-Royce", "Tesla" };
+            string[] standard = new string[9] { "Audi", "BMW", "Jeep", "Land Rover", "Lexus", "Mercedes-Benz", "Volkswagen", "Volvo", "Alfa Romeo" };
+            string[] premium = new string[8] { "Aston Martin", "Bugatti", "Dodge", "Ferrari", "Lamborghini", "McLaren", "Rolls-Royce", "Tesla" };
 
             switch(segment){
                 case "budget":
@@ -64,10 +67,43 @@ namespace CarTrade
             }
         }
 
-        //TODO
         public decimal GenerateBasePrice(string segment, string type) {
-            decimal value = Convert.ToDecimal(RandomNumber(50000, 10000));
-            return 0.0m;
+            switch(segment){
+                case "budget":
+                    return GenerateBudgetPrice(type);
+                case "standard":
+                    return GenerateStandardPrice(type);
+                case "premium":
+                    return GeneratePremiumPrice(type);
+                default:
+                    return GenerateBudgetPrice(type);
+            }
+        }
+
+        private decimal GenerateBudgetPrice(string type){
+            decimal value = Convert.ToDecimal(RandomNumber(30000, 15000));
+            return DiffPriceOnType(value, type);
+        }
+
+        private decimal GenerateStandardPrice(string type){
+            decimal value = Convert.ToDecimal(RandomNumber(100000, 30000));
+            return DiffPriceOnType(value, type);
+        }
+
+        private decimal GeneratePremiumPrice(string type) {
+            decimal value = Convert.ToDecimal(RandomNumber(625000, 70000));
+            return DiffPriceOnType(value, type);
+        }
+
+        private decimal DiffPriceOnType(decimal value, string type){
+            switch (type) {
+                case "cargo":
+                    return Decimal.Multiply(value, 1.1m);
+                case "motorcycle":
+                    return Decimal.Multiply(value, 0.9m);
+                default:
+                    return value;
+            }
         }
 
         //helper function
@@ -93,6 +129,28 @@ namespace CarTrade
                 d /= 10m;
             }
             return d;
+        }
+
+        //Colour generation
+        static readonly Color[] Colors =
+            typeof(Color).GetProperties(BindingFlags.Public | BindingFlags.Static)
+           .Select(propInfo => propInfo.GetValue(null, null))
+           .Cast<Color>()
+           .ToArray();
+
+        static readonly string[] ColorNames =
+            typeof(Color).GetProperties(BindingFlags.Public | BindingFlags.Static)
+            .Select(propInfo => propInfo.Name)
+            .ToArray();
+
+        private Random rand = new Random();
+
+        public Color GetRandomColor() {
+            return Colors[rand.Next(0, Colors.Length)];
+        }
+
+        public string GetRandomColorName() {
+            return ColorNames[rand.Next(0, Colors.Length)];
         }
     }
 }
