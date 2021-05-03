@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CarTrade
 {
-    class Generators
+    class CarGenerator
     {
         public Car GenerateCar() {
 
