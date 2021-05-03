@@ -18,6 +18,7 @@ namespace CarTrade
             List<Client> clients = cg.GenerateClient(25);
             List<Car> carShop = carG.GenerateCar(30);
 
+            menu.AddPlayers(players);
             Game game = new Game(players, difficulty, clients, carShop);
             game.Start();
         }

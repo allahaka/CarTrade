@@ -6,6 +6,12 @@ namespace CarTrade
 {
     class Menus
     {
+        public List<Player> players;
+
+        public void addPlayers(List<Player> players){
+            this.players = players;
+        }
+
         public void Clean() {
             Console.Clear();
         }
