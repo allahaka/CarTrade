@@ -9,6 +9,7 @@ namespace CarTrade {
         public string gameDifficulty;
         public List<Client> clients;
         public List<Car> carShop;
+        private decimal startingAmount;
 
         public Game(List<Player> players, string gameDifficulty, List<Client> clients, List<Car> carShop){
             this.players = players;
@@ -23,16 +24,10 @@ namespace CarTrade {
             int iteration = Convert.ToInt32(list[1]);
             list.RemoveAt(0);
 
-            var amount = difficulty switch {
-                "easy" => 200000,
-                "medium" => 100000,
-                "hard" => 50000,
-                _ => 200000,
-            };
-
             for (int i=0; i<iteration; i++){
-                players.Add(new Player(list[i], amount));
+                players.Add(new Player(list[i], Game.getAmountFromDifficulty(difficulty)));
             }
+
             return players;
         }
 
@@ -41,9 +36,19 @@ namespace CarTrade {
             return difficulty;
         }
 
+        public static decimal getAmountFromDifficulty(string difficulty){
+            var amount = difficulty switch {
+                "easy" => 200000,
+                "medium" => 100000,
+                "hard" => 50000,
+                _ => 200000,
+            };
+            return Convert.ToDecimal(amount);
+        }
+
         //TODO
-        public void Start(){ 
-        
+        public void Start(){
+            this.startingAmount = getAmountFromDifficulty(this.gameDifficulty);
         }
     }
 }
