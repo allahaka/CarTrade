@@ -61,7 +61,7 @@ namespace CarTrade
         }
 
         public void MainMenu() {
-            Console.WriteLine($"Player: {currentPlayer.name}, Moves: {currentPlayer.amountOfMoves}, Account: {currentPlayer.account}");
+            Console.WriteLine($"Player: {currentPlayer.name}, Moves: {currentPlayer.amountOfMoves}, Account: {currentPlayer.account} \n");
             Console.WriteLine("[B]uy a car                                      [V]iew Owned cars");
             Console.WriteLine("[R]epair a car                                   Buy an [A]d");
             Console.WriteLine("[S]ell a car                                     Check [H]istory of actions ");
