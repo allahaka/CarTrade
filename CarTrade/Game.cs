@@ -10,6 +10,7 @@ namespace CarTrade {
         public List<Client> clients;
         public List<Car> carShop;
         private decimal startingAmount;
+        readonly Menus menu = new Menus();
 
         public Game(List<Player> players, string gameDifficulty, List<Client> clients, List<Car> carShop){
             this.players = players;
@@ -21,7 +22,7 @@ namespace CarTrade {
         public static List<Player> CreatePlayers(List<string> list, string difficulty) {
             List<Player> players = new List<Player>();
             list.RemoveAt(list.Count - 1);
-            int iteration = Convert.ToInt32(list[1]);
+            int iteration = Convert.ToInt32(list[0]);
             list.RemoveAt(0);
 
             for (int i=0; i<iteration; i++){
@@ -49,6 +50,9 @@ namespace CarTrade {
         //TODO
         public void Start(){
             this.startingAmount = getAmountFromDifficulty(this.gameDifficulty);
+            menu.AddPlayers(players);
+            menu.currentPlayer = players[0];
+            menu.MainMenu();
         }
     }
 }
