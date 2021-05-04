@@ -67,6 +67,10 @@ namespace CarTrade
             Console.WriteLine("[S]ell a car                          [C]heck account");
             Console.WriteLine("Check [H]istory of actions            Check sum of all [P]ayments for owned cars");
             Console.WriteLine("[Q]uit");
+            MainMenuLogic();
+        }
+
+        public void MainMenuLogic(){
             ConsoleKeyInfo ck = Console.ReadKey();
 
             switch (ck.Key) {
@@ -105,7 +109,7 @@ namespace CarTrade
                 case ConsoleKey.Q:
                     Environment.Exit(0);
                     break;
-            } 
+            }
         }
 
         public void BuyCarMenu(){
