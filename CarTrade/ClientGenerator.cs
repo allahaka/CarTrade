@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json.Linq;
 
 namespace CarTrade {
     class ClientGenerator {
 
-        readonly Helpers help = new Helpers(); 
+        readonly Helpers help = new Helpers();
 
         public List<Client> GenerateClient(int amount){
             List<Client> clients = new List<Client>();
@@ -25,10 +21,10 @@ namespace CarTrade {
         }
 
         public string GenerateName(){
-            JObject o1 = JObject.Parse(File.ReadAllText("first-names.json"));
-            string a = o1.ToString();
-            List<string> name = a.Split(',').ToList();
-            return name[help.RandomNumber(name.Count())];
+            var lines = File.ReadAllLines(@"E:\C#-projects\CarTrade\CarTrade\CarTrade\first-names.txt");
+            var r = new Random();
+            var randomLineNumber = r.Next(0, lines.Length - 1);
+            return lines[randomLineNumber];
         }
 
         public decimal GenerateCash(){
