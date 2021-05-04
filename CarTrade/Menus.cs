@@ -62,15 +62,50 @@ namespace CarTrade
 
         public void MainMenu() {
             Console.WriteLine($"Player: {currentPlayer.name}, Moves: {currentPlayer.amountOfMoves}, Account: {currentPlayer.account}");
-            Console.WriteLine("[B]uy a car                           [V]iew Owned cars");
-            Console.WriteLine("[R]epair a car                        Buy an [A]d");
-            Console.WriteLine("[S]ell a car                          [C]heck account");
-            Console.WriteLine("Check [H]istory of actions            Check sum of all [P]ayments for owned cars");
-            Console.WriteLine("[Q]uit");
+            Console.WriteLine("[B]uy a car                                      [V]iew Owned cars");
+            Console.WriteLine("[R]epair a car                                   Buy an [A]d");
+            Console.WriteLine("[S]ell a car                                     Check [H]istory of actions ");
+            Console.WriteLine("Check sum of all [P]ayments for owned cars       [Q]uit");
             MainMenuLogic();
         }
 
-        public void MainMenuLogic(){
+        public void BuyCarMenu(){
+            Console.WriteLine("Buy Car Menu");
+            BuyCarLogic();
+        }
+
+        public void ViewOwnedCarsMenu(){
+            Console.WriteLine("Owned Cars Menu");
+            ViewOwnedCarsLogic();
+        }
+
+        public void RepairCarMenu(){
+            Console.WriteLine("Repair Car Menu");
+            RepairCarLogic();
+        }
+
+        public void BuyAdMenu(){
+            Console.WriteLine("Buy Ad Menu");
+            BuyAdLogic();
+        }
+
+        public void SellCarMenu(){
+            Console.WriteLine("Sell Car Menu");
+            SellCarLogic();
+        }
+
+        public void CheckHistoryMenu(){
+            Console.WriteLine("Check History Menu");
+            CheckHistoryLogic();
+        }
+
+        public void CheckPaymentsMenu(){
+            Console.WriteLine("Check Payments Menu");
+            CheckPaymentsLogic();
+        }
+
+        //Logics
+        public void MainMenuLogic() {
             ConsoleKeyInfo ck = Console.ReadKey();
 
             switch (ck.Key) {
@@ -94,10 +129,6 @@ namespace CarTrade
                     Clean();
                     SellCarMenu();
                     break;
-                case ConsoleKey.C:
-                    Clean();
-                    CheckAccountMenu();
-                    break;
                 case ConsoleKey.H:
                     Clean();
                     CheckHistoryMenu();
@@ -111,44 +142,28 @@ namespace CarTrade
                     break;
             }
         }
-
-        public void BuyCarMenu(){
-            Console.WriteLine("Buy Car Menu");
+        public void BuyCarLogic(){
             ConsoleKeyInfo ck = Console.ReadKey();
         }
-
-        public void ViewOwnedCarsMenu(){
-            Console.WriteLine("Owned Cars Menu");
+        public void ViewOwnedCarsLogic() {
             ConsoleKeyInfo ck = Console.ReadKey();
         }
-
-        public void RepairCarMenu(){
-            Console.WriteLine("Repair Car Menu");
+        public void RepairCarLogic(){
             ConsoleKeyInfo ck = Console.ReadKey();
         }
-
-        public void BuyAdMenu(){
-            Console.WriteLine("Buy Ad Menu");
+        public void BuyAdLogic(){
             ConsoleKeyInfo ck = Console.ReadKey();
         }
-
-        public void SellCarMenu(){
-            Console.WriteLine("Sell Car Menu");
+        public void SellCarLogic(){
             ConsoleKeyInfo ck = Console.ReadKey();
         }
-
-        public void CheckAccountMenu(){
-            Console.WriteLine("Check Account Menu");
+        public void CheckAccountLogic() {
             ConsoleKeyInfo ck = Console.ReadKey();
         }
-
-        public void CheckHistoryMenu(){
-            Console.WriteLine("Check History Menu");
+        public void CheckHistoryLogic() {
             ConsoleKeyInfo ck = Console.ReadKey();
         }
-
-        public void CheckPaymentsMenu(){
-            Console.WriteLine("Check Payments Menu");
+        public void CheckPaymentsLogic() {
             ConsoleKeyInfo ck = Console.ReadKey();
         }
     }
