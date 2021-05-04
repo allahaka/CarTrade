@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CarTrade
 {
@@ -38,6 +36,7 @@ namespace CarTrade
         }
 
         public void CreateParts() {
+            parts = new Part[5];
             parts[0] = new Part("Break", NeedRepairing(), 10);
             parts[1] = new Part("Suspension", NeedRepairing(), 20);
             parts[2] = new Part("Engine", NeedRepairing(), 100);
