@@ -3,19 +3,40 @@ using System.Collections.Generic;
 
 namespace CarTrade
 {
+    /// <summary>
+    /// 
+    /// </summary>
     class Menus
     {
+        /// <summary>
+        /// Holds all players in the game as list of class player
+        /// </summary>
         public List<Player> players;
+
+        /// <summary>
+        /// Hold player object for current move switches between players available in <c>players</c>
+        /// </summary>
         public Player currentPlayer;
 
+        /// <summary>
+        /// Adds List of players to Menus class as availability to work on this data during game itself
+        /// </summary>
+        /// <param name="players"> The <see cref="Player"/> list is provided to add possibility for game to go through players </param>
         public void AddPlayers(List<Player> players){
             this.players = players;
         }
 
+        /// <summary>
+        /// Cleans the screen
+        /// </summary>
         public void Clean() {
             Console.Clear();
         }
 
+        /// <summary>
+        /// Collects all needed information about the game, as difficulty, amount of players and nicks of players
+        /// </summary>
+        /// <returns>List of <see cref="String"/> with all player names difficulty and amount of players in it</returns>
         public List<string> StartGame(){
             List<string> result = new List<string>();
             int numberPlayers;
@@ -60,6 +81,9 @@ namespace CarTrade
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void MainMenu() {
             Console.WriteLine($"Player: {currentPlayer.name}, Moves: {currentPlayer.amountOfMoves}, Account: {currentPlayer.account} \n");
             Console.WriteLine("[B]uy a car                                      [V]iew Owned cars");
