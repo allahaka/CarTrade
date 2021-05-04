@@ -5,11 +5,13 @@ namespace CarTrade {
     class Game {
 
         public List<Player> players;
+        public Player currentPlayer;
+        public int currentPlayerIndex;
+
         public string gameDifficulty;
         public List<Client> clients;
         public List<Car> carShop;
         private decimal startingAmount;
-        readonly Menus menu = new Menus();
 
         public Game(List<Player> players, string gameDifficulty, List<Client> clients, List<Car> carShop){
             this.players = players;
@@ -48,10 +50,47 @@ namespace CarTrade {
 
         //TODO
         public void Start(){
-            this.startingAmount = getAmountFromDifficulty(this.gameDifficulty);
-            menu.AddPlayers(players);
-            menu.currentPlayer = players[0];
-            menu.MainMenu();
+            startingAmount = getAmountFromDifficulty(gameDifficulty);
+            currentPlayer = players[0];
+            currentPlayerIndex = 0;
+            ConsoleKeyInfo ck = Menus.MainMenu(currentPlayer);
+            OptionChoiceMainMenu(ck);
+        }
+
+        public void OptionChoiceMainMenu(ConsoleKeyInfo ck){
+            switch (ck.Key) {
+                case ConsoleKey.B:
+                    Menus.Clean();
+                    Menus.BuyCarMenu();
+                    break;
+                case ConsoleKey.V:
+                    Menus.Clean();
+                    Menus.ViewOwnedCarsMenu();
+                    break;
+                case ConsoleKey.R:
+                    Menus.Clean();
+                    Menus.RepairCarMenu();
+                    break;
+                case ConsoleKey.A:
+                    Menus.Clean();
+                    Menus.BuyAdMenu();
+                    break;
+                case ConsoleKey.S:
+                    Menus.Clean();
+                    Menus.SellCarMenu();
+                    break;
+                case ConsoleKey.H:
+                    Menus.Clean();
+                    Menus.CheckHistoryMenu();
+                    break;
+                case ConsoleKey.P:
+                    Menus.Clean();
+                    Menus.CheckPaymentsMenu();
+                    break;
+                case ConsoleKey.Q:
+                    Environment.Exit(0);
+                    break;
+            }
         }
     }
 }

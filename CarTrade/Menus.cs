@@ -8,28 +8,11 @@ namespace CarTrade
     /// </summary>
     class Menus
     {
-        /// <summary>
-        /// Holds all players in the game as list of class player
-        /// </summary>
-        public List<Player> players;
-
-        /// <summary>
-        /// Hold player object for current move switches between players available in <c>players</c>
-        /// </summary>
-        public Player currentPlayer;
-
-        /// <summary>
-        /// Adds List of players to Menus class as availability to work on this data during game itself
-        /// </summary>
-        /// <param name="players"> The <see cref="Player"/> list is provided to add possibility for game to go through players </param>
-        public void AddPlayers(List<Player> players){
-            this.players = players;
-        }
 
         /// <summary>
         /// Cleans the screen
         /// </summary>
-        public void Clean() {
+        public static void Clean() {
             Console.Clear();
         }
 
@@ -81,114 +64,54 @@ namespace CarTrade
             return result;
         }
 
+
         /// <summary>
-        /// 
+        /// Shows Main Menu for a player with actions that player can do
         /// </summary>
-        public void MainMenu() {
+        /// <param name="currentPlayer"> Takes <see cref="Player"/> as param for current player info </param>
+        /// <returns> ConsoleKeyInfo for Game to work on what player choose</returns>
+        public static ConsoleKeyInfo MainMenu(Player currentPlayer) {
             Console.WriteLine($"Player: {currentPlayer.name}, Moves: {currentPlayer.amountOfMoves}, Account: {currentPlayer.account} \n");
             Console.WriteLine("[B]uy a car                                      [V]iew Owned cars");
             Console.WriteLine("[R]epair a car                                   Buy an [A]d");
             Console.WriteLine("[S]ell a car                                     Check [H]istory of actions ");
             Console.WriteLine("Check sum of all [P]ayments for owned cars       [Q]uit");
-            MainMenuLogic();
+            return Console.ReadKey();
         }
 
-        public void BuyCarMenu(){
+        public static ConsoleKeyInfo BuyCarMenu(){
             Console.WriteLine("Buy Car Menu");
-            BuyCarLogic();
+            return Console.ReadKey();
         }
 
-        public void ViewOwnedCarsMenu(){
+        public static ConsoleKeyInfo ViewOwnedCarsMenu(){
             Console.WriteLine("Owned Cars Menu");
-            ViewOwnedCarsLogic();
+            return Console.ReadKey();
         }
 
-        public void RepairCarMenu(){
+        public static ConsoleKeyInfo RepairCarMenu(){
             Console.WriteLine("Repair Car Menu");
-            RepairCarLogic();
+            return Console.ReadKey();
         }
 
-        public void BuyAdMenu(){
+        public static ConsoleKeyInfo BuyAdMenu(){
             Console.WriteLine("Buy Ad Menu");
-            BuyAdLogic();
+            return Console.ReadKey();
         }
 
-        public void SellCarMenu(){
+        public static ConsoleKeyInfo SellCarMenu(){
             Console.WriteLine("Sell Car Menu");
-            SellCarLogic();
+            return Console.ReadKey();
         }
 
-        public void CheckHistoryMenu(){
+        public static ConsoleKeyInfo CheckHistoryMenu(){
             Console.WriteLine("Check History Menu");
-            CheckHistoryLogic();
+            return Console.ReadKey();
         }
 
-        public void CheckPaymentsMenu(){
+        public static ConsoleKeyInfo CheckPaymentsMenu(){
             Console.WriteLine("Check Payments Menu");
-            CheckPaymentsLogic();
-        }
-
-        //Logics
-        public void MainMenuLogic() {
-            ConsoleKeyInfo ck = Console.ReadKey();
-
-            switch (ck.Key) {
-                case ConsoleKey.B:
-                    Clean();
-                    BuyCarMenu();
-                    break;
-                case ConsoleKey.V:
-                    Clean();
-                    ViewOwnedCarsMenu();
-                    break;
-                case ConsoleKey.R:
-                    Clean();
-                    RepairCarMenu();
-                    break;
-                case ConsoleKey.A:
-                    Clean();
-                    BuyAdMenu();
-                    break;
-                case ConsoleKey.S:
-                    Clean();
-                    SellCarMenu();
-                    break;
-                case ConsoleKey.H:
-                    Clean();
-                    CheckHistoryMenu();
-                    break;
-                case ConsoleKey.P:
-                    Clean();
-                    CheckPaymentsMenu();
-                    break;
-                case ConsoleKey.Q:
-                    Environment.Exit(0);
-                    break;
-            }
-        }
-        public void BuyCarLogic(){
-            ConsoleKeyInfo ck = Console.ReadKey();
-        }
-        public void ViewOwnedCarsLogic() {
-            ConsoleKeyInfo ck = Console.ReadKey();
-        }
-        public void RepairCarLogic(){
-            ConsoleKeyInfo ck = Console.ReadKey();
-        }
-        public void BuyAdLogic(){
-            ConsoleKeyInfo ck = Console.ReadKey();
-        }
-        public void SellCarLogic(){
-            ConsoleKeyInfo ck = Console.ReadKey();
-        }
-        public void CheckAccountLogic() {
-            ConsoleKeyInfo ck = Console.ReadKey();
-        }
-        public void CheckHistoryLogic() {
-            ConsoleKeyInfo ck = Console.ReadKey();
-        }
-        public void CheckPaymentsLogic() {
-            ConsoleKeyInfo ck = Console.ReadKey();
+            return Console.ReadKey();
         }
     }
 }
