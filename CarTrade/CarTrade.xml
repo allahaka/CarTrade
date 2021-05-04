@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CarTrade</name>
+    </assembly>
+    <members>
+        <member name="T:CarTrade.Menus">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:CarTrade.Menus.players">
+            <summary>
+            Holds all players in the game as list of class player
+            </summary>
+        </member>
+        <member name="F:CarTrade.Menus.currentPlayer">
+            <summary>
+            Hold player object for current move switches between players available in <c>players</c>
+            </summary>
+        </member>
+        <member name="M:CarTrade.Menus.AddPlayers(System.Collections.Generic.List{CarTrade.Player})">
+            <summary>
+            Adds List of players to Menus class as availability to work on this data during game itself
+            </summary>
+            <param name="players"> The <see cref="T:CarTrade.Player"/> list is provided to add possibility for game to go through players </param>
+        </member>
+        <member name="M:CarTrade.Menus.Clean">
+            <summary>
+            Cleans the screen
+            </summary>
+        </member>
+        <member name="M:CarTrade.Menus.StartGame">
+            <summary>
+            Collects all needed information about the game, as difficulty, amount of players and nicks of players
+            </summary>
+            <returns>List of <see cref="T:System.String"/> with all player names difficulty and amount of players in it</returns>
+        </member>
+        <member name="M:CarTrade.Menus.MainMenu">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>
