@@ -5,8 +5,7 @@ namespace CarTrade
 {
     class Program
     {
-        static void Main(string[] args)
-        {
+        static void Main(string[] args) {
             Menus menu = new Menus();
             ClientGenerator cg = new ClientGenerator();
             CarGenerator carG = new CarGenerator();
@@ -18,7 +17,6 @@ namespace CarTrade
             List<Client> clients = cg.GenerateClient(25);
             List<Car> carShop = carG.GenerateCar(30);
 
-            menu.AddPlayers(players);
             Game game = new Game(players, difficulty, clients, carShop);
             game.Start();
         }
