@@ -79,13 +79,182 @@ namespace CarTrade
             return Console.ReadKey();
         }
 
-        public static ConsoleKeyInfo BuyCarMenu(){
-            Console.WriteLine("Buy Car Menu");
-            return Console.ReadKey();
+        public static void BuyCarMenu(List<Car> cars, Player currentPlayer, Game game, int index = 0, bool bought = false){
+            if(bought == true){
+                game.BuyCarMenuLogic(cars[index]);
+            } else {
+                Console.WriteLine(cars[index].DisplayCar()[0]);
+                if (cars[index].type == "cargo")
+                    Console.WriteLine($"Cargo Space: {cars[index].cargoSpace}");
+                Console.WriteLine(cars[index].DisplayCar()[1]);
+                
+                if(index == cars.Count - 1) {
+                    Console.WriteLine("[B]uy        [P]revious");
+                    Console.WriteLine("[M]ain Menu");
+                    ConsoleKeyInfo ck = Console.ReadKey();
+
+                    switch (ck.Key) {
+                        case ConsoleKey.B:
+                            Menus.Clean();
+                            Menus.BuyCarMenu(cars, currentPlayer, game, index, true);
+                            break;
+                        case ConsoleKey.P:
+                            Menus.Clean();
+                            Menus.BuyCarMenu(cars, currentPlayer, game, index - 1, false);
+                            break;
+                        case ConsoleKey.M:
+                            Menus.Clean();
+                            Game.BackToMainMenu(currentPlayer, game);
+                            break;
+                        default:
+                            Menus.Clean();
+                            Menus.BuyCarMenu(cars, currentPlayer, game, index, false);
+                            break;
+                    }
+                } else if (index > 0) {
+                    Console.WriteLine("[B]uy        [P]revious [N]ext");
+                    Console.WriteLine("[M]ain Menu");
+                    ConsoleKeyInfo ck = Console.ReadKey();
+
+                    switch (ck.Key) {
+                        case ConsoleKey.B:
+                            Menus.Clean();
+                            Menus.BuyCarMenu(cars, currentPlayer, game, index, true);
+                            break;
+                        case ConsoleKey.P:
+                            Menus.Clean();
+                            Menus.BuyCarMenu(cars, currentPlayer, game, index - 1, false);
+                            break;
+                        case ConsoleKey.N:
+                            Menus.Clean();
+                            Menus.BuyCarMenu(cars, currentPlayer, game, index + 1, false);
+                            break;
+                        case ConsoleKey.M:
+                            Menus.Clean();
+                            Game.BackToMainMenu(currentPlayer, game);
+                            break;
+                        default:
+                            Menus.Clean();
+                            Menus.BuyCarMenu(cars, currentPlayer, game, index, false);
+                            break;
+                    }
+                } else {
+                    Console.WriteLine("[B]uy        [N]ext");
+                    Console.WriteLine("[M]ain Menu");
+                    ConsoleKeyInfo ck = Console.ReadKey();
+
+                    switch (ck.Key) {
+                        case ConsoleKey.B:
+                            Menus.Clean();
+                            Menus.BuyCarMenu(cars, currentPlayer, game, index, true);
+                            break;
+                        case ConsoleKey.N:
+                            Menus.Clean();
+                            Menus.BuyCarMenu(cars, currentPlayer, game, index + 1, false);
+                            break;
+                        case ConsoleKey.M:
+                            Menus.Clean();
+                            Game.BackToMainMenu(currentPlayer, game);
+                            break;
+                        default:
+                            Menus.Clean();
+                            Menus.BuyCarMenu(cars, currentPlayer, game, index, false);
+                            break;
+                    }
+                }
+            }
         }
 
-        public static ConsoleKeyInfo ViewOwnedCarsMenu(){
-            Console.WriteLine("Owned Cars Menu");
+        public static ConsoleKeyInfo ViewOwnedCarsMenu(Player currentPlayer, Game game, int index = 0){
+            List<Car> cars = currentPlayer.ownedCars;
+
+            if (cars.Count == 0){
+                Console.WriteLine("You don't have any cars \n\n");
+                Game.BackToMainMenu(currentPlayer, game);
+            }
+
+            string[] car = cars[index].DisplayCar();
+
+            Console.WriteLine(car[0]); 
+            Console.WriteLine(car[1]); 
+            Console.WriteLine(car[2]); 
+
+            if(cars.Count == 1) {
+                Console.WriteLine("[M]ain Menu");
+                ConsoleKeyInfo ck = Console.ReadKey();
+
+                switch (ck.Key) {
+                    case ConsoleKey.M:
+                        Menus.Clean();
+                        Game.BackToMainMenu(currentPlayer, game);
+                        break;
+                    default:
+                        Menus.Clean();
+                        Menus.ViewOwnedCarsMenu(currentPlayer, game, index);
+                        break;
+                }
+            } else if (index == cars.Count - 1) {
+                Console.WriteLine("[P]revious");
+                Console.WriteLine("[M]ain Menu");
+                ConsoleKeyInfo ck = Console.ReadKey();
+
+                switch (ck.Key) {
+                    case ConsoleKey.P:
+                        Menus.Clean();
+                        Menus.ViewOwnedCarsMenu(currentPlayer, game, index - 1);
+                        break;
+                    case ConsoleKey.M:
+                        Menus.Clean();
+                        Game.BackToMainMenu(currentPlayer, game);
+                        break;
+                    default:
+                        Menus.Clean();
+                        Menus.ViewOwnedCarsMenu(currentPlayer, game, index);
+                        break;
+                }
+            } else if (index > 0) {
+                Console.WriteLine("[P]revious [N]ext");
+                Console.WriteLine("[M]ain Menu");
+                ConsoleKeyInfo ck = Console.ReadKey();
+
+                switch (ck.Key) {
+                    case ConsoleKey.P:
+                        Menus.Clean();
+                        Menus.ViewOwnedCarsMenu(currentPlayer, game, index - 1);
+                        break;
+                    case ConsoleKey.N:
+                        Menus.Clean();
+                        Menus.ViewOwnedCarsMenu(currentPlayer, game, index + 1);
+                        break;
+                    case ConsoleKey.M:
+                        Menus.Clean();
+                        Game.BackToMainMenu(currentPlayer, game);
+                        break;
+                    default:
+                        Menus.Clean();
+                        Menus.ViewOwnedCarsMenu(currentPlayer, game, index);
+                        break;
+                }
+            } else {
+                Console.WriteLine("[N]ext");
+                Console.WriteLine("[M]ain Menu");
+                ConsoleKeyInfo ck = Console.ReadKey();
+
+                switch (ck.Key) {
+                    case ConsoleKey.N:
+                        Menus.Clean();
+                        Menus.ViewOwnedCarsMenu(currentPlayer, game, index + 1);
+                        break;
+                    case ConsoleKey.M:
+                        Menus.Clean();
+                        Game.BackToMainMenu(currentPlayer, game);
+                        break;
+                    default:
+                        Menus.Clean();
+                        Menus.ViewOwnedCarsMenu(currentPlayer, game, index);
+                        break;
+                }
+            }
             return Console.ReadKey();
         }
 
