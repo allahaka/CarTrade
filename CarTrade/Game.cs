@@ -78,11 +78,6 @@ namespace CarTrade {
                     Menus.Clean();
                     Menus.ViewOwnedCarsMenu(currentPlayer, game);
                     break;
-                case ConsoleKey.R:
-                    Menus.Clean();
-                    ConsoleKeyInfo ckbrcm = Menus.RepairCarMenu();
-                    RepairCarMenuLogic(ckbrcm);
-                    break;
                 case ConsoleKey.A:
                     Menus.Clean();
                     ConsoleKeyInfo ckbbam = Menus.BuyAdMenu();
@@ -114,10 +109,11 @@ namespace CarTrade {
         }
 
         public void BuyCarMenuLogic(Car car){
-            if(currentPlayer.account >= car.FinalPrice()) {
+            if(currentPlayer.account >= car.FinalPrice() + 0.02m * car.FinalPrice()) {
                 carShop = carG.GenerateCar(30);
-                currentPlayer.account -= car.FinalPrice();
+                currentPlayer.account -= car.FinalPrice() + 0.02m * car.FinalPrice();
                 currentPlayer.ownedCars.Add(car);
+                Console.WriteLine($"You paid additional 2% of taxes which is {0.02m * car.FinalPrice()} \n\n");
                 BackToMainMenu(currentPlayer, game);
             } else {
                 Console.WriteLine("You don't have enough money to buy this \n\n");
@@ -126,23 +122,32 @@ namespace CarTrade {
 
         }
 
-        public static void RepairCarMenuLogic(ConsoleKeyInfo ck) {
+        public void RepairCarMenuLogic(Player player, int index, decimal price, int chance) {
+            Car car = player.ownedCars[index];
+            if(price <= player.account){
+                player.account -= price;
+                car.RepairCar(chance);
+                Console.WriteLine("Car was given to repair check if it was a success \n\n");
+                BackToMainMenu(player, game);
+            } else {
+                Console.WriteLine("Not enough money to repair this car \n\n");
+                BackToMainMenu(player, game);
+            }
+        }
+
+        public void BuyAdMenuLogic(ConsoleKeyInfo ck) {
 
         }
 
-        public static void BuyAdMenuLogic(ConsoleKeyInfo ck) {
+        public void SellCarMenuLogic(ConsoleKeyInfo ck) {
 
         }
 
-        public static void SellCarMenuLogic(ConsoleKeyInfo ck) {
-
-        }
-
-        public static void CheckHistoryMenuLogic(ConsoleKeyInfo ck) {
+        public void CheckHistoryMenuLogic(ConsoleKeyInfo ck) {
 
         }
         
-        public static void CheckPaymentsMenuLogic(ConsoleKeyInfo ck) {
+        public void CheckPaymentsMenuLogic(ConsoleKeyInfo ck) {
 
         }
     }
