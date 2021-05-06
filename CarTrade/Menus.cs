@@ -73,9 +73,9 @@ namespace CarTrade
         public static ConsoleKeyInfo MainMenu(Player currentPlayer) {
             Console.WriteLine($"Player: {currentPlayer.name}, Moves: {currentPlayer.amountOfMoves}, Account: {currentPlayer.account} \n");
             Console.WriteLine("[B]uy a car                                      [V]iew Owned cars");
-            Console.WriteLine("[R]epair a car                                   Buy an [A]d");
-            Console.WriteLine("[S]ell a car                                     Check [H]istory of actions ");
-            Console.WriteLine("Check sum of all [P]ayments for owned cars       [Q]uit");
+            Console.WriteLine("Buy an [A]d                                      [S]ell a car ");
+            Console.WriteLine("Check [H]istory of actions                       Check sum of all [P]ayments for owned cars");
+            Console.WriteLine("[Q]uit");
             return Console.ReadKey();
         }
 
@@ -180,6 +180,7 @@ namespace CarTrade
             Console.WriteLine(car[2]); 
 
             if(cars.Count == 1) {
+                Console.WriteLine("[R]epair a car");
                 Console.WriteLine("[M]ain Menu");
                 ConsoleKeyInfo ck = Console.ReadKey();
 
@@ -187,6 +188,10 @@ namespace CarTrade
                     case ConsoleKey.M:
                         Menus.Clean();
                         Game.BackToMainMenu(currentPlayer, game);
+                        break;
+                    case ConsoleKey.R:
+                        Menus.Clean();
+                        Menus.RepairCarMenu(currentPlayer, index, game);
                         break;
                     default:
                         Menus.Clean();
@@ -194,7 +199,7 @@ namespace CarTrade
                         break;
                 }
             } else if (index == cars.Count - 1) {
-                Console.WriteLine("[P]revious");
+                Console.WriteLine("[R]epair a car       [P]revious");
                 Console.WriteLine("[M]ain Menu");
                 ConsoleKeyInfo ck = Console.ReadKey();
 
@@ -206,6 +211,10 @@ namespace CarTrade
                     case ConsoleKey.M:
                         Menus.Clean();
                         Game.BackToMainMenu(currentPlayer, game);
+                        break;
+                    case ConsoleKey.R:
+                        Menus.Clean();
+                        Menus.RepairCarMenu(currentPlayer, index, game);
                         break;
                     default:
                         Menus.Clean();
@@ -213,7 +222,7 @@ namespace CarTrade
                         break;
                 }
             } else if (index > 0) {
-                Console.WriteLine("[P]revious [N]ext");
+                Console.WriteLine("[R]epair a car       [P]revious [N]ext");
                 Console.WriteLine("[M]ain Menu");
                 ConsoleKeyInfo ck = Console.ReadKey();
 
@@ -230,13 +239,17 @@ namespace CarTrade
                         Menus.Clean();
                         Game.BackToMainMenu(currentPlayer, game);
                         break;
+                    case ConsoleKey.R:
+                        Menus.Clean();
+                        Menus.RepairCarMenu(currentPlayer, index, game);
+                        break;
                     default:
                         Menus.Clean();
                         Menus.ViewOwnedCarsMenu(currentPlayer, game, index);
                         break;
                 }
             } else {
-                Console.WriteLine("[N]ext");
+                Console.WriteLine("[R]epair a car       [N]ext");
                 Console.WriteLine("[M]ain Menu");
                 ConsoleKeyInfo ck = Console.ReadKey();
 
@@ -248,6 +261,10 @@ namespace CarTrade
                     case ConsoleKey.M:
                         Menus.Clean();
                         Game.BackToMainMenu(currentPlayer, game);
+                        break;
+                    case ConsoleKey.R:
+                        Menus.Clean();
+                        Menus.RepairCarMenu(currentPlayer, index, game);
                         break;
                     default:
                         Menus.Clean();
@@ -258,9 +275,41 @@ namespace CarTrade
             return Console.ReadKey();
         }
 
-        public static ConsoleKeyInfo RepairCarMenu(){
-            Console.WriteLine("Repair Car Menu");
-            return Console.ReadKey();
+        public static void RepairCarMenu(Player currentPlayer, int index, Game game){
+            Car car = currentPlayer.ownedCars[index];
+            Console.WriteLine("Where you want to repair your car:");
+            Console.WriteLine($"[J]anusz: \n\t Price: {Decimal.Multiply(car.RepairPrice(), 1.2m)}");
+            Console.WriteLine($"Maria[n]: \n\t Price: {car.RepairPrice()}");
+            Console.WriteLine($"[A]drian: \n\t Price: {Decimal.Multiply(car.RepairPrice(), 0.8m)}");
+            Console.WriteLine("\n [B]ack    [M]ain Menu");
+            ConsoleKeyInfo ck = Console.ReadKey();
+
+            switch(ck.Key){
+                case ConsoleKey.J:
+                    Menus.Clean();
+                    game.RepairCarMenuLogic(currentPlayer, index, Decimal.Multiply(car.RepairPrice(), 1.2m), 100);
+                    break;
+                case ConsoleKey.N:
+                    Menus.Clean();
+                    game.RepairCarMenuLogic(currentPlayer, index, car.RepairPrice(), 90);
+                    break;
+                case ConsoleKey.A:
+                    Menus.Clean();
+                    game.RepairCarMenuLogic(currentPlayer, index, Decimal.Multiply(car.RepairPrice(), 0.8m), 80);
+                    break;
+                case ConsoleKey.B:
+                    Menus.Clean();
+                    ViewOwnedCarsMenu(currentPlayer, game, index);
+                    break;
+                case ConsoleKey.M:
+                    Menus.Clean();
+                    Game.BackToMainMenu(currentPlayer, game);
+                    break;
+                default:
+                    Menus.Clean();
+                    RepairCarMenu(currentPlayer, index, game);
+                    break;
+            }
         }
 
         public static ConsoleKeyInfo BuyAdMenu(){
