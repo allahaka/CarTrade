@@ -9,22 +9,6 @@
             
             </summary>
         </member>
-        <member name="F:CarTrade.Menus.players">
-            <summary>
-            Holds all players in the game as list of class player
-            </summary>
-        </member>
-        <member name="F:CarTrade.Menus.currentPlayer">
-            <summary>
-            Hold player object for current move switches between players available in <c>players</c>
-            </summary>
-        </member>
-        <member name="M:CarTrade.Menus.AddPlayers(System.Collections.Generic.List{CarTrade.Player})">
-            <summary>
-            Adds List of players to Menus class as availability to work on this data during game itself
-            </summary>
-            <param name="players"> The <see cref="T:CarTrade.Player"/> list is provided to add possibility for game to go through players </param>
-        </member>
         <member name="M:CarTrade.Menus.Clean">
             <summary>
             Cleans the screen
@@ -36,10 +20,12 @@
             </summary>
             <returns>List of <see cref="T:System.String"/> with all player names difficulty and amount of players in it</returns>
         </member>
-        <member name="M:CarTrade.Menus.MainMenu">
+        <member name="M:CarTrade.Menus.MainMenu(CarTrade.Player)">
             <summary>
-            
+            Shows Main Menu for a player with actions that player can do
             </summary>
+            <param name="currentPlayer"> Takes <see cref="T:CarTrade.Player"/> as param for current player info </param>
+            <returns> ConsoleKeyInfo for Game to work on what player choose</returns>
         </member>
     </members>
 </doc>
