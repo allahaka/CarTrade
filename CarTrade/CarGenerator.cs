@@ -76,17 +76,17 @@ namespace CarTrade
         }
 
         private decimal GenerateBudgetPrice(string type){
-            decimal value = Convert.ToDecimal(help.RandomNumber(30000, 15000));
+            decimal value = Convert.ToDecimal(help.RandomNumber(1000, 500));
             return DiffPriceOnType(value, type);
         }
 
         private decimal GenerateStandardPrice(string type){
-            decimal value = Convert.ToDecimal(help.RandomNumber(100000, 30000));
+            decimal value = Convert.ToDecimal(help.RandomNumber(2000, 1000));
             return DiffPriceOnType(value, type);
         }
 
         private decimal GeneratePremiumPrice(string type) {
-            decimal value = Convert.ToDecimal(help.RandomNumber(625000, 70000));
+            decimal value = Convert.ToDecimal(help.RandomNumber(10000, 2500));
             return DiffPriceOnType(value, type);
         }
 
