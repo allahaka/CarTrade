@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace CarTrade {
-    class Game {
+    class Game{
 
         public List<Player> players;
         public Player currentPlayer;
@@ -12,6 +12,11 @@ namespace CarTrade {
         public List<Client> clients;
         public List<Car> carShop;
         private decimal startingAmount;
+
+        CarGenerator carG = new CarGenerator();
+        ClientGenerator cg = new ClientGenerator();
+
+        Game game;
 
         public Game(List<Player> players, string gameDifficulty, List<Client> clients, List<Car> carShop){
             this.players = players;
@@ -49,48 +54,96 @@ namespace CarTrade {
         }
 
         //TODO
-        public void Start(){
+        public void Start(Game game){
+            this.game = game;
             startingAmount = getAmountFromDifficulty(gameDifficulty);
             currentPlayer = players[0];
             currentPlayerIndex = 0;
             ConsoleKeyInfo ck = Menus.MainMenu(currentPlayer);
-            OptionChoiceMainMenu(ck);
+            MainMenuLogic(ck);
+        }
+        
+        public static void BackToMainMenu(Player currentPlayer, Game game) {
+            ConsoleKeyInfo ck = Menus.MainMenu(currentPlayer);
+            game.MainMenuLogic(ck);
         }
 
-        public void OptionChoiceMainMenu(ConsoleKeyInfo ck){
+        public void MainMenuLogic(ConsoleKeyInfo ck){
             switch (ck.Key) {
                 case ConsoleKey.B:
                     Menus.Clean();
-                    Menus.BuyCarMenu();
+                    Menus.BuyCarMenu(carShop, currentPlayer, game);
                     break;
                 case ConsoleKey.V:
                     Menus.Clean();
-                    Menus.ViewOwnedCarsMenu();
+                    Menus.ViewOwnedCarsMenu(currentPlayer, game);
                     break;
                 case ConsoleKey.R:
                     Menus.Clean();
-                    Menus.RepairCarMenu();
+                    ConsoleKeyInfo ckbrcm = Menus.RepairCarMenu();
+                    RepairCarMenuLogic(ckbrcm);
                     break;
                 case ConsoleKey.A:
                     Menus.Clean();
-                    Menus.BuyAdMenu();
+                    ConsoleKeyInfo ckbbam = Menus.BuyAdMenu();
+                    BuyAdMenuLogic(ckbbam);
                     break;
                 case ConsoleKey.S:
                     Menus.Clean();
-                    Menus.SellCarMenu();
+                    ConsoleKeyInfo ckbscm = Menus.SellCarMenu();
+                    SellCarMenuLogic(ckbscm);
                     break;
                 case ConsoleKey.H:
                     Menus.Clean();
-                    Menus.CheckHistoryMenu();
+                    ConsoleKeyInfo ckbchm = Menus.CheckHistoryMenu();
+                    CheckHistoryMenuLogic(ckbchm);
                     break;
                 case ConsoleKey.P:
                     Menus.Clean();
-                    Menus.CheckPaymentsMenu();
+                    ConsoleKeyInfo ckbcpm = Menus.CheckPaymentsMenu();
+                    CheckPaymentsMenuLogic(ckbcpm);
                     break;
                 case ConsoleKey.Q:
                     Environment.Exit(0);
                     break;
+                default:
+                    Menus.Clean();
+                    BackToMainMenu(currentPlayer, game);
+                    break;
             }
+        }
+
+        public void BuyCarMenuLogic(Car car){
+            if(currentPlayer.account >= car.FinalPrice()) {
+                carShop = carG.GenerateCar(30);
+                currentPlayer.account -= car.FinalPrice();
+                currentPlayer.ownedCars.Add(car);
+                BackToMainMenu(currentPlayer, game);
+            } else {
+                Console.WriteLine("You don't have enough money to buy this \n\n");
+                BackToMainMenu(currentPlayer, game);
+            }
+
+        }
+
+        public static void RepairCarMenuLogic(ConsoleKeyInfo ck) {
+
+        }
+
+        public static void BuyAdMenuLogic(ConsoleKeyInfo ck) {
+
+        }
+
+        public static void SellCarMenuLogic(ConsoleKeyInfo ck) {
+
+        }
+
+        public static void CheckHistoryMenuLogic(ConsoleKeyInfo ck) {
+
+        }
+        
+        public static void CheckPaymentsMenuLogic(ConsoleKeyInfo ck) {
+
         }
     }
 }
