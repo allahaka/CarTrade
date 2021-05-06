@@ -44,20 +44,20 @@ namespace CarTrade
             parts[4] = new Part("Gearbox", NeedRepairing(), 50);
         }
 
-        private decimal FinalPrice() {
+        public decimal FinalPrice() {
             decimal final = value;
             for (int i = 0; i < 5; i++) {
-                final = parts[i].needRepairing ? final + value * parts[i].valueIncrease : final;
+                final = parts[i].needRepairing ? final: final + value * parts[i].valueIncrease;
             }
             return final;
         }
 
         public string[] DisplayCar() {
-            string firstLine = $"The {colour} {brand} \n {type} car out of {segment} segment.";
+            string firstLine = $"The {colour} {brand} {type} type out of {segment} segment with mileage {mileage}";
             string secondLine = $"Price: {FinalPrice()}";
             string parts = "Status of parts: \n";
             for (int i = 0; i < 5; i++) {
-                parts += $"{parts[i]}: {(this.parts[i].needRepairing ? "Repair is needed" : "Perfect")} \n";
+                parts += $"\t{this.parts[i].name}: {(this.parts[i].needRepairing ? "Repair is needed" : "Perfect")} \n";
             }
             return new String[3] {firstLine, secondLine, parts};
         }
