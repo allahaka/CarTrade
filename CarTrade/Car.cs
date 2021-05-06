@@ -17,6 +17,8 @@ namespace CarTrade
         //parts for car
         public Part[] parts;
 
+        readonly Helpers help = new Helpers();
+
         public Car(decimal value, string brand, decimal mileage, string colour, string segment, string type, int cargoSpace=0) {
             this.value = value;
             this.brand = brand;
@@ -62,5 +64,33 @@ namespace CarTrade
             return new String[3] {firstLine, secondLine, parts};
         }
 
+        public decimal RepairPrice(){
+            decimal repairPrice = 0.0m;
+            for (int i = 0; i < 5; i++) {
+                repairPrice += parts[i].needRepairing ? 0.0m : parts[i].repairPrice;
+            }
+            return segment switch {
+                "budget" => Decimal.Multiply(repairPrice, 0.95m),
+                "standard" => repairPrice,
+                "premium" => Decimal.Multiply(repairPrice, 1.2m),
+                _ => repairPrice,
+            };
+        }
+
+        public void RepairCar(int chance){
+            if(help.RandomNumber(100) <= chance) {
+                for (int i = 0; i < 5; i++) {
+                    if(chance == 80) {
+                        if(help.RandomNumber(100) <= 2) {
+                            parts[i].Destroy();
+                        } else {
+                            parts[i].Repair();
+                        }
+                    } else {
+                        parts[i].Repair();
+                    }
+                }
+            }
+        }
     }
 }
