@@ -17,7 +17,7 @@ namespace CarTrade
             List<Car> carShop = carG.GenerateCar(30);
 
             Game game = new Game(players, difficulty, clients, carShop);
-            game.Start();
+            game.Start(game);
         }
     }
 }
