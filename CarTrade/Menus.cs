@@ -345,9 +345,247 @@ namespace CarTrade
             }
         }
 
-        public static ConsoleKeyInfo SellCarMenu(){
-            Console.WriteLine("Sell Car Menu");
-            return Console.ReadKey();
+        public static void SellCarMenu(Player currentPlayer, Game game, List<Client> clients, int index = 0) {
+            List<Car> cars = currentPlayer.ownedCars;
+            clients[index].PrintClient();
+            if(index == 0) {
+                Console.WriteLine("\n[S]ell     [N]ext");
+                Console.WriteLine("[M]ain Menu");
+                ConsoleKeyInfo ck = Console.ReadKey();
+
+                switch (ck.Key) {
+                    case ConsoleKey.S:
+                        Menus.Clean();
+                        if(CheckIfPossibleToSell(cars, clients[index]).Count == 0) {
+                            Console.WriteLine("You don't have any cars that fits for this Client");
+                            SellCarMenu(currentPlayer, game, clients, index);
+                        }else {
+                            List<Car> sellableCars = CheckIfPossibleToSell(cars, clients[index]);
+                            SellableCars(currentPlayer, sellableCars, clients[index], index, clients, game);
+                        }
+                        break;
+                    case ConsoleKey.N:
+                        Menus.Clean();
+                        SellCarMenu(currentPlayer, game, clients, index + 1);
+                        break;
+                    case ConsoleKey.M:
+                        Menus.Clean();
+                        Game.BackToMainMenu(currentPlayer, game);
+                        break;
+                    default:
+                        Menus.Clean();
+                        SellCarMenu(currentPlayer, game, clients, index);
+                        break;
+                }
+
+            } else if(index == clients.Count - 1) {
+                Console.WriteLine("\n[S]ell     [P]revious");
+                Console.WriteLine("[M]ain Menu");
+                ConsoleKeyInfo ck = Console.ReadKey();
+
+                switch (ck.Key) {
+                    case ConsoleKey.S:
+                        Menus.Clean();
+                        if (CheckIfPossibleToSell(cars, clients[index]).Count == 0) {
+                            Console.WriteLine("You don't have any cars that fits for this Client");
+                            SellCarMenu(currentPlayer, game, clients, index);
+                        } else {
+                            List<Car> sellableCars = CheckIfPossibleToSell(cars, clients[index]);
+                            SellableCars(currentPlayer, sellableCars, clients[index], index, clients, game);
+                        }
+                        break;
+                    case ConsoleKey.P:
+                        Menus.Clean();
+                        SellCarMenu(currentPlayer, game, clients, index - 1);
+                        break;
+                    case ConsoleKey.M:
+                        Menus.Clean();
+                        Game.BackToMainMenu(currentPlayer, game);
+                        break;
+                    default:
+                        Menus.Clean();
+                        SellCarMenu(currentPlayer, game, clients, index);
+                        break;
+                }
+
+            } else {
+                Console.WriteLine("\n[S]ell     [P]revious [N]ext");
+                Console.WriteLine("[M]ain Menu");
+                ConsoleKeyInfo ck = Console.ReadKey();
+
+                switch (ck.Key) {
+                    case ConsoleKey.S:
+                        Menus.Clean();
+                        if (CheckIfPossibleToSell(cars, clients[index]).Count == 0) {
+                            Console.WriteLine("You don't have any cars that fits for this Client \n");
+                            SellCarMenu(currentPlayer, game, clients, index);
+                        } else {
+                            List<Car> sellableCars = CheckIfPossibleToSell(cars, clients[index]);
+                            SellableCars(currentPlayer, sellableCars, clients[index], index, clients, game);
+                        }
+                        break;
+                    case ConsoleKey.P:
+                        Menus.Clean();
+                        SellCarMenu(currentPlayer, game, clients, index - 1);
+                        break;
+                    case ConsoleKey.N:
+                        Menus.Clean();
+                        SellCarMenu(currentPlayer, game, clients, index + 1);
+                        break;
+                    case ConsoleKey.M:
+                        Menus.Clean();
+                        Game.BackToMainMenu(currentPlayer, game);
+                        break;
+                    default:
+                        Menus.Clean();
+                        SellCarMenu(currentPlayer, game, clients, index);
+                        break;
+                }
+
+            }
+
+        }
+
+        public static List<Car> CheckIfPossibleToSell(List<Car> cars, Client checkClient){
+            List<Car> returnCars = new List<Car>();
+            bool damaged = false;
+            foreach(Car car in cars){ 
+                if(car.type == checkClient.interestedInType){ 
+                    if(car.brand == checkClient.interestedIn[0] || car.brand == checkClient.interestedIn[1]){
+                        if(car.FinalPrice() <= checkClient.cash){
+                            foreach(Part part in car.parts){
+                                if(part.needRepairing == true){
+                                    damaged = true;
+                                }
+                            }
+                            if (checkClient.acceptedDamagedParts == false && damaged == false) {
+                                returnCars.Add(car);
+                            } else if(checkClient.acceptedDamagedParts == true && damaged == true) {
+                                returnCars.Add(car);
+                            } else if(checkClient.acceptedDamagedParts == true && damaged == false) {
+                                returnCars.Add(car);
+                            }
+                        }
+                    }
+                }
+            }
+            return returnCars;
+        }
+
+        public static void SellableCars(Player currentPlayer, List<Car> cars, Client client, int clientIndex, List<Client> clients, Game game, int carIndex = 0){ 
+            if(cars.Count == 1) {
+                Console.WriteLine(cars[carIndex].DisplayCar()[0]);
+                if (cars[carIndex].type == "cargo")
+                    Console.WriteLine($"Cargo Space: {cars[carIndex].cargoSpace}");
+                Console.WriteLine(cars[carIndex].DisplayCar()[1]);
+                Console.WriteLine(cars[carIndex].DisplayCar()[2]);
+
+                Console.WriteLine("\n[S]ell");
+                Console.WriteLine("[B]ack   [M]ain Menu");
+                ConsoleKeyInfo ck = Console.ReadKey();
+
+                switch (ck.Key) {
+                    case ConsoleKey.S:
+                        Menus.Clean();
+                        game.SellCarMenuLogic(cars[carIndex]);
+                        break;
+                    case ConsoleKey.B:
+                        SellCarMenu(currentPlayer, game, clients, clientIndex);
+                        break;
+                    case ConsoleKey.M:
+                        Menus.Clean();
+                        Game.BackToMainMenu(currentPlayer, game);
+                        break;
+                    default:
+                        SellableCars(currentPlayer, cars, client, clientIndex, clients, game, carIndex);
+                        break;
+                }
+
+            }else{ 
+                if(carIndex == 0){
+                    Console.WriteLine("\n[S]ell     [N]ext");
+                    Console.WriteLine("[B]ack   [M]ain Menu");
+                    ConsoleKeyInfo ck = Console.ReadKey();
+
+                    switch (ck.Key) {
+                        case ConsoleKey.N:
+                            Menus.Clean();
+                            SellableCars(currentPlayer, cars, client, clientIndex, clients, game, carIndex + 1);
+                            break;
+                        case ConsoleKey.S:
+                            Menus.Clean();
+                            game.SellCarMenuLogic(cars[carIndex]);
+                            break;
+                        case ConsoleKey.B:
+                            SellCarMenu(currentPlayer, game, clients, clientIndex);
+                            break;
+                        case ConsoleKey.M:
+                            Menus.Clean();
+                            Game.BackToMainMenu(currentPlayer, game);
+                            break;
+                        default:
+                            SellableCars(currentPlayer, cars, client, clientIndex, clients, game, carIndex);
+                            break;
+                    }
+
+                } else if(carIndex == cars.Count-1) {
+                    Console.WriteLine("\n[S]ell     [P]revious");
+                    Console.WriteLine("[B]ack   [M]ain Menu");
+                    ConsoleKeyInfo ck = Console.ReadKey();
+
+                    switch (ck.Key) {
+                        case ConsoleKey.P:
+                            Menus.Clean();
+                            SellableCars(currentPlayer, cars, client, clientIndex, clients, game, carIndex - 1);
+                            break;
+                        case ConsoleKey.S:
+                            Menus.Clean();
+                            game.SellCarMenuLogic(cars[carIndex]);
+                            break;
+                        case ConsoleKey.B:
+                            SellCarMenu(currentPlayer, game, clients, clientIndex);
+                            break;
+                        case ConsoleKey.M:
+                            Menus.Clean();
+                            Game.BackToMainMenu(currentPlayer, game);
+                            break;
+                        default:
+                            SellableCars(currentPlayer, cars, client, clientIndex, clients, game, carIndex);
+                            break;
+                    }
+
+                } else {
+                    Console.WriteLine("\n[S]ell     [P]revious [N]ext");
+                    Console.WriteLine("[B]ack   [M]ain Menu");
+                    ConsoleKeyInfo ck = Console.ReadKey();
+
+                    switch (ck.Key) {
+                        case ConsoleKey.N:
+                            Menus.Clean();
+                            SellableCars(currentPlayer, cars, client, clientIndex, clients, game, carIndex + 1);
+                            break;
+                        case ConsoleKey.P:
+                            Menus.Clean();
+                            SellableCars(currentPlayer, cars, client, clientIndex, clients, game, carIndex - 1);
+                            break;
+                        case ConsoleKey.S:
+                            Menus.Clean();
+                            game.SellCarMenuLogic(cars[carIndex]);
+                            break;
+                        case ConsoleKey.B:
+                            SellCarMenu(currentPlayer, game, clients, clientIndex);
+                            break;
+                        case ConsoleKey.M:
+                            Menus.Clean();
+                            Game.BackToMainMenu(currentPlayer, game);
+                            break;
+                        default:
+                            SellableCars(currentPlayer, cars, client, clientIndex, clients, game, carIndex);
+                            break;
+                    }
+
+                }
+            }
         }
 
         public static ConsoleKeyInfo CheckHistoryMenu(){
