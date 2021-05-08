@@ -14,7 +14,7 @@ namespace CarTrade {
                 decimal cash = GenerateCash();
                 string interestedInType = GenerateInterestedType();
                 string[] interestedIn = GenerateInterestedInBrands();
-                bool acceptedDamagedParts = true;
+                bool acceptedDamagedParts = DoesAcceptDemagedParts();
                 clients.Add(new Client(name, cash, interestedInType, interestedIn, acceptedDamagedParts));
             }
             return clients; 
@@ -28,7 +28,7 @@ namespace CarTrade {
         }
 
         public decimal GenerateCash(){
-            return Convert.ToDecimal(help.RandomNumber(1000000, 25000));
+            return Convert.ToDecimal(help.RandomNumber(10000000, 75000));
         }
 
         public string GenerateInterestedType(){
