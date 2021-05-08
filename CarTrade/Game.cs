@@ -15,6 +15,7 @@ namespace CarTrade {
 
         CarGenerator carG = new CarGenerator();
         ClientGenerator cg = new ClientGenerator();
+        readonly Helpers help = new Helpers();
 
         Game game;
 
@@ -80,8 +81,7 @@ namespace CarTrade {
                     break;
                 case ConsoleKey.A:
                     Menus.Clean();
-                    ConsoleKeyInfo ckbbam = Menus.BuyAdMenu();
-                    BuyAdMenuLogic(ckbbam);
+                    Menus.BuyAdMenu(currentPlayer, game);
                     break;
                 case ConsoleKey.S:
                     Menus.Clean();
@@ -135,8 +135,29 @@ namespace CarTrade {
             }
         }
 
-        public void BuyAdMenuLogic(ConsoleKeyInfo ck) {
+        public void BuyAdMenuLogic(int value) {
+            if (value <= currentPlayer.account){
+                currentPlayer.account -= value;
 
+                var number = value switch {
+                    0 => 5,
+                    1000 => 2,
+                    300 => 1,
+                    _ => 1,
+                };
+
+                List<Client> newClients = cg.GenerateClient(help.RandomNumber(number));
+
+                foreach (Client c in newClients) {
+                    clients.Add(c);
+                }
+                BackToMainMenu(currentPlayer, game);
+
+            } else {
+                Console.WriteLine("Not enough money to buy this add \n\n");
+                BackToMainMenu(currentPlayer, game);
+            }
+            
         }
 
         public void SellCarMenuLogic(ConsoleKeyInfo ck) {
