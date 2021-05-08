@@ -74,7 +74,7 @@ namespace CarTrade
             Console.WriteLine($"Player: {currentPlayer.name}, Moves: {currentPlayer.amountOfMoves}, Account: {currentPlayer.account} \n");
             Console.WriteLine("[B]uy a car                                      [V]iew Owned cars");
             Console.WriteLine("Buy an [A]d                                      [S]ell a car ");
-            Console.WriteLine("Check [H]istory of actions                       Check sum of all [P]ayments for owned cars");
+            Console.WriteLine("Check [H]istory of actions(WIP)                  Check sum of all [P]ayments for owned cars(WIP)");
             Console.WriteLine("[Q]uit");
             return Console.ReadKey();
         }
@@ -588,14 +588,12 @@ namespace CarTrade
             }
         }
 
-        public static ConsoleKeyInfo CheckHistoryMenu(){
+        public static void CheckHistoryMenu(){
             Console.WriteLine("Check History Menu");
-            return Console.ReadKey();
         }
 
-        public static ConsoleKeyInfo CheckPaymentsMenu(){
+        public static void CheckPaymentsMenu(){
             Console.WriteLine("Check Payments Menu");
-            return Console.ReadKey();
         }
     }
 }
