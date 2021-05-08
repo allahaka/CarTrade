@@ -1,4 +1,6 @@
-﻿namespace CarTrade
+﻿using System;
+
+namespace CarTrade
 {
     class Client
     {
@@ -14,6 +16,13 @@
             this.interestedInType = interestedInType;
             this.interestedIn = interestedIn;
             this.acceptedDamagedParts = acceptedDamagedParts;
+        }
+
+        public void PrintClient(){
+            Console.WriteLine($"{name} is looking for {interestedInType}");
+            Console.WriteLine($"Brands: {interestedIn[0]}, {interestedIn[1]}");
+            Console.WriteLine($"Can spend: {cash}");
+            Console.WriteLine($"{(acceptedDamagedParts ? "Accept damaged car" : "Doesn't accept damaged car")}");
         }
     }
 }
