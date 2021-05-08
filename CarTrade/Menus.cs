@@ -74,7 +74,7 @@ namespace CarTrade
             Console.WriteLine($"Player: {currentPlayer.name}, Moves: {currentPlayer.amountOfMoves}, Account: {currentPlayer.account} \n");
             Console.WriteLine("[B]uy a car                                      [V]iew Owned cars");
             Console.WriteLine("Buy an [A]d                                      [S]ell a car ");
-            Console.WriteLine("Check [H]istory of actions(WIP)                  Check sum of all [P]ayments for owned cars(WIP)");
+            Console.WriteLine("Check [H]istory of actions(WIP)                  Check sum of all [P]ayments for owned cars");
             Console.WriteLine("[Q]uit");
             return Console.ReadKey();
         }
@@ -592,8 +592,27 @@ namespace CarTrade
             Console.WriteLine("Check History Menu");
         }
 
-        public static void CheckPaymentsMenu(){
-            Console.WriteLine("Check Payments Menu");
+        public static void CheckPaymentsMenu(Player currentPlayer, Game game){
+            decimal sum = 0.0m;
+            foreach (Car car in currentPlayer.ownedCars) {
+                sum += car.RepairPrice();
+            }
+            Console.WriteLine($"Sum of all payments will be: {sum}");
+            Console.WriteLine($"[R]epair All    Price: {sum * 5.0m}");
+            Console.WriteLine("[M]ain Menu");
+            ConsoleKeyInfo ck = Console.ReadKey();
+
+            switch (ck.Key) {
+                case ConsoleKey.M:
+                    Game.BackToMainMenu(currentPlayer, game);
+                    break;
+                case ConsoleKey.R:
+                    game.CheckPaymentsMenuLogic(sum);
+                    break;
+                default:
+                    CheckPaymentsMenu(currentPlayer, game);
+                    break;
+            }
         }
     }
 }

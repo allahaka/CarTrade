@@ -92,7 +92,7 @@ namespace CarTrade {
                     break;
                 case ConsoleKey.P:
                     Menus.Clean();
-                    Menus.CheckPaymentsMenu();
+                    Menus.CheckPaymentsMenu(currentPlayer, game);
                     break;
                 case ConsoleKey.Q:
                     Environment.Exit(0);
@@ -177,8 +177,20 @@ namespace CarTrade {
 
         }
         
-        public void CheckPaymentsMenuLogic() {
-
+        public void CheckPaymentsMenuLogic(decimal sum) {
+            sum *= 5.0m;
+            if(currentPlayer.account >= sum){
+                currentPlayer.account -= sum;
+                foreach(Car car in currentPlayer.ownedCars){
+                    car.RepairCar(100);
+                }
+                Console.WriteLine($"Cars were given to repair check if it was a success \nNext Player move\n");
+                NextPlayer();
+                BackToMainMenu(currentPlayer, game);
+            } else{
+                Console.WriteLine("Not enough money to Repair all cars \n\n");
+                BackToMainMenu(currentPlayer, game);
+            }
         }
 
         public void NextPlayer(){ 
