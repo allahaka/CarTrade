@@ -46,15 +46,14 @@ namespace CarTrade {
 
         public static decimal getAmountFromDifficulty(string difficulty){
             var amount = difficulty switch {
-                "easy" => 200000,
-                "medium" => 100000,
-                "hard" => 50000,
+                "easy" => 1000000,
+                "medium" => 400000,
+                "hard" => 200000,
                 _ => 200000,
             };
             return Convert.ToDecimal(amount);
         }
 
-        //TODO
         public void Start(Game game){
             this.game = game;
             startingAmount = getAmountFromDifficulty(gameDifficulty);
@@ -85,18 +84,15 @@ namespace CarTrade {
                     break;
                 case ConsoleKey.S:
                     Menus.Clean();
-                    ConsoleKeyInfo ckbscm = Menus.SellCarMenu();
-                    SellCarMenuLogic(ckbscm);
+                    Menus.SellCarMenu(currentPlayer, game, clients);
                     break;
                 case ConsoleKey.H:
                     Menus.Clean();
-                    ConsoleKeyInfo ckbchm = Menus.CheckHistoryMenu();
-                    CheckHistoryMenuLogic(ckbchm);
+                    Menus.CheckHistoryMenu();
                     break;
                 case ConsoleKey.P:
                     Menus.Clean();
-                    ConsoleKeyInfo ckbcpm = Menus.CheckPaymentsMenu();
-                    CheckPaymentsMenuLogic(ckbcpm);
+                    Menus.CheckPaymentsMenu();
                     break;
                 case ConsoleKey.Q:
                     Environment.Exit(0);
@@ -113,7 +109,8 @@ namespace CarTrade {
                 carShop = carG.GenerateCar(30);
                 currentPlayer.account -= car.FinalPrice() + 0.02m * car.FinalPrice();
                 currentPlayer.ownedCars.Add(car);
-                Console.WriteLine($"You paid additional 2% of taxes which is {0.02m * car.FinalPrice()} \n\n");
+                Console.WriteLine($"You paid additional 2% of taxes which is {0.02m * car.FinalPrice()} \nNext Player move\n ");
+                NextPlayer();
                 BackToMainMenu(currentPlayer, game);
             } else {
                 Console.WriteLine("You don't have enough money to buy this \n\n");
@@ -127,7 +124,8 @@ namespace CarTrade {
             if(price <= player.account){
                 player.account -= price;
                 car.RepairCar(chance);
-                Console.WriteLine("Car was given to repair check if it was a success \n\n");
+                Console.WriteLine("Car was given to repair check if it was a success \nNext Player move\n");
+                NextPlayer();
                 BackToMainMenu(player, game);
             } else {
                 Console.WriteLine("Not enough money to repair this car \n\n");
@@ -138,19 +136,24 @@ namespace CarTrade {
         public void BuyAdMenuLogic(int value) {
             if (value <= currentPlayer.account){
                 currentPlayer.account -= value;
-
+                List<Client> newClients = new List<Client>();
                 var number = value switch {
                     0 => 5,
                     1000 => 2,
                     300 => 1,
                     _ => 1,
                 };
-
-                List<Client> newClients = cg.GenerateClient(help.RandomNumber(number));
+                if(value == 0)
+                    newClients = cg.GenerateClient(help.RandomNumber(number));
+                else{
+                    newClients = cg.GenerateClient(number);
+                }
 
                 foreach (Client c in newClients) {
                     clients.Add(c);
                 }
+                Console.WriteLine("You markted your buisness \nNext Player move\n");
+                NextPlayer();
                 BackToMainMenu(currentPlayer, game);
 
             } else {
@@ -160,16 +163,38 @@ namespace CarTrade {
             
         }
 
-        public void SellCarMenuLogic(ConsoleKeyInfo ck) {
-
+        public void SellCarMenuLogic(Car car) {
+            currentPlayer.account += car.FinalPrice() * 0.98m;
+            currentPlayer.ownedCars.Remove(car);
+            int numberOfClients = clients.Count;
+            clients = cg.GenerateClient(numberOfClients);
+            Console.WriteLine($"You sold the Car, you paid 2% of Taxes which was {car.FinalPrice() * 0.02m} \nNext Player move\n");
+            NextPlayer();
+            BackToMainMenu(currentPlayer, game);
         }
 
-        public void CheckHistoryMenuLogic(ConsoleKeyInfo ck) {
+        public void CheckHistoryMenuLogic() {
 
         }
         
-        public void CheckPaymentsMenuLogic(ConsoleKeyInfo ck) {
+        public void CheckPaymentsMenuLogic() {
 
+        }
+
+        public void NextPlayer(){ 
+            if(players.Count == 1){
+                currentPlayer.amountOfMoves += 1;
+            }else{ 
+                if(currentPlayer == players[^1]){
+                    currentPlayer.amountOfMoves += 1;
+                    currentPlayerIndex = 0;
+                    currentPlayer = players[0];
+                }else{
+                    currentPlayer.amountOfMoves += 1;
+                    currentPlayerIndex++;
+                    currentPlayer = players[currentPlayerIndex];
+                }
+            }
         }
     }
 }
