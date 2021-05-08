@@ -312,9 +312,37 @@ namespace CarTrade
             }
         }
 
-        public static ConsoleKeyInfo BuyAdMenu(){
+        public static void BuyAdMenu(Player currentPlayer, Game game) {
             Console.WriteLine("Buy Ad Menu");
-            return Console.ReadKey();
+            Console.WriteLine("Marketing [C]ampaign         Price: $0");
+            Console.WriteLine("Promote in a [N]ewspaper     Price: $1000");
+            Console.WriteLine("Promote in an [I]nternet     Price: $300");
+            Console.WriteLine("\n[M]ain menu");
+
+            ConsoleKeyInfo ck = Console.ReadKey();
+
+            switch (ck.Key) {
+                case ConsoleKey.C:
+                    Menus.Clean();
+                    game.BuyAdMenuLogic(0);
+                    break;
+                case ConsoleKey.N:
+                    Menus.Clean();
+                    game.BuyAdMenuLogic(1000);
+                    break;
+                case ConsoleKey.I:
+                    Menus.Clean();
+                    game.BuyAdMenuLogic(300);
+                    break;
+                case ConsoleKey.M:
+                    Menus.Clean();
+                    Game.BackToMainMenu(currentPlayer, game);
+                    break;
+                default:
+                    Menus.Clean();
+                    BuyAdMenu(currentPlayer, game);
+                    break;
+            }
         }
 
         public static ConsoleKeyInfo SellCarMenu(){
