@@ -2,9 +2,8 @@
 
 namespace CarTrade
 {
-    class Program
-    {
-        static void Main(string[] args) {
+    class Program{
+        static void Main(string[] args){
             Menus menu = new Menus();
             ClientGenerator cg = new ClientGenerator();
             CarGenerator carG = new CarGenerator();

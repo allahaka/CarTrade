@@ -2,8 +2,7 @@
 
 namespace CarTrade
 {
-    class Car
-    {
+    class Car{
 
         // base values for car
         public readonly decimal value;
@@ -19,7 +18,7 @@ namespace CarTrade
 
         readonly Helpers help = new Helpers();
 
-        public Car(decimal value, string brand, decimal mileage, string colour, string segment, string type, int cargoSpace=0) {
+        public Car(decimal value, string brand, decimal mileage, string colour, string segment, string type, int cargoSpace=0){
             this.value = value;
             this.brand = brand;
             this.mileage = mileage;
@@ -31,13 +30,11 @@ namespace CarTrade
         }
 
         //helper method
-        private bool NeedRepairing()
-        {
-            Random rng = new Random();
-            return rng.Next(100) <= 40;
+        private bool NeedRepairing(){
+            return help.RandomNumber(100) <= 40;
         }
 
-        public void CreateParts() {
+        public void CreateParts(){
             parts = new Part[5];
             parts[0] = new Part("Break", NeedRepairing(), 10);
             parts[1] = new Part("Suspension", NeedRepairing(), 20);
@@ -46,19 +43,19 @@ namespace CarTrade
             parts[4] = new Part("Gearbox", NeedRepairing(), 50);
         }
 
-        public decimal FinalPrice() {
+        public decimal FinalPrice(){
             decimal final = value;
-            for (int i = 0; i < 5; i++) {
+            for(int i = 0; i < parts.Length; i++){
                 final = parts[i].needRepairing ? final: final + value * parts[i].valueIncrease;
             }
             return final;
         }
 
-        public string[] DisplayCar() {
+        public string[] DisplayCar(){
             string firstLine = $"The {colour} {brand} {type} type out of {segment} segment with mileage {mileage}";
             string secondLine = $"Price: {FinalPrice()}";
             string parts = "Status of parts: \n";
-            for (int i = 0; i < 5; i++) {
+            for(int i = 0; i < parts.Length; i++){
                 parts += $"\t{this.parts[i].name}: {(this.parts[i].needRepairing ? "Repair is needed" : "Perfect")} \n";
             }
             return new String[3] {firstLine, secondLine, parts};
@@ -66,10 +63,10 @@ namespace CarTrade
 
         public decimal RepairPrice(){
             decimal repairPrice = 0.0m;
-            for (int i = 0; i < 5; i++) {
+            for(int i = 0; i < parts.Length; i++){
                 repairPrice += parts[i].needRepairing ? 0.0m : parts[i].repairPrice;
             }
-            return segment switch {
+            return segment switch{
                 "budget" => Decimal.Multiply(repairPrice, 0.95m),
                 "standard" => repairPrice,
                 "premium" => Decimal.Multiply(repairPrice, 1.2m),
@@ -78,12 +75,12 @@ namespace CarTrade
         }
 
         public void RepairCar(int chance){
-            if(help.RandomNumber(100) <= chance) {
-                for (int i = 0; i < 5; i++) {
+            if(help.RandomNumber(100) <= chance){
+                for (int i = 0; i < parts.Length; i++){
                     if(chance == 80) {
-                        if(help.RandomNumber(100) <= 2) {
+                        if(help.RandomNumber(100) <= 2){
                             parts[i].Destroy();
-                        } else {
+                        }else{
                             parts[i].Repair();
                         }
                     } else {

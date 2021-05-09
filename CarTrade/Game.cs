@@ -13,8 +13,8 @@ namespace CarTrade {
         public List<Car> carShop;
         private decimal startingAmount;
 
-        CarGenerator carG = new CarGenerator();
-        ClientGenerator cg = new ClientGenerator();
+        readonly CarGenerator carG = new CarGenerator();
+        readonly ClientGenerator cg = new ClientGenerator();
         readonly Helpers help = new Helpers();
 
         Game game;
@@ -26,13 +26,13 @@ namespace CarTrade {
             this.carShop = carShop;
         }
 
-        public static List<Player> CreatePlayers(List<string> list, string difficulty) {
+        public static List<Player> CreatePlayers(List<string> list, string difficulty){
             List<Player> players = new List<Player>();
             list.RemoveAt(list.Count - 1);
             int iteration = Convert.ToInt32(list[0]);
             list.RemoveAt(0);
 
-            for (int i=0; i<iteration; i++){
+            for(int i=0; i < iteration; i++){
                 players.Add(new Player(list[i], Game.getAmountFromDifficulty(difficulty)));
             }
 
@@ -45,7 +45,7 @@ namespace CarTrade {
         }
 
         public static decimal getAmountFromDifficulty(string difficulty){
-            var amount = difficulty switch {
+            var amount = difficulty switch{
                 "easy" => 1000000,
                 "medium" => 400000,
                 "hard" => 200000,
@@ -63,13 +63,13 @@ namespace CarTrade {
             MainMenuLogic(ck);
         }
         
-        public static void BackToMainMenu(Player currentPlayer, Game game) {
+        public static void BackToMainMenu(Player currentPlayer, Game game){
             ConsoleKeyInfo ck = Menus.MainMenu(currentPlayer);
             game.MainMenuLogic(ck);
         }
 
         public void MainMenuLogic(ConsoleKeyInfo ck){
-            switch (ck.Key) {
+            switch(ck.Key){
                 case ConsoleKey.B:
                     Menus.Clean();
                     Menus.BuyCarMenu(carShop, currentPlayer, game);
@@ -105,18 +105,17 @@ namespace CarTrade {
         }
 
         public void BuyCarMenuLogic(Car car){
-            if(currentPlayer.account >= car.FinalPrice() + 0.02m * car.FinalPrice()) {
+            if(currentPlayer.account >= car.FinalPrice() + 0.02m * car.FinalPrice()){
                 carShop = carG.GenerateCar(30);
                 currentPlayer.account -= car.FinalPrice() + 0.02m * car.FinalPrice();
                 currentPlayer.ownedCars.Add(car);
-                Console.WriteLine($"You paid additional 2% of taxes which is {0.02m * car.FinalPrice()} \nNext Player move\n ");
+                Console.WriteLine($"You paid additional 2% of taxes which is {0.02m * car.FinalPrice()} \nNext Player move\n");
                 NextPlayer();
                 BackToMainMenu(currentPlayer, game);
-            } else {
+            }else{
                 Console.WriteLine("You don't have enough money to buy this \n\n");
                 BackToMainMenu(currentPlayer, game);
             }
-
         }
 
         public void RepairCarMenuLogic(Player player, int index, decimal price, int chance) {
@@ -127,43 +126,41 @@ namespace CarTrade {
                 Console.WriteLine("Car was given to repair check if it was a success \nNext Player move\n");
                 NextPlayer();
                 BackToMainMenu(player, game);
-            } else {
+            }else{
                 Console.WriteLine("Not enough money to repair this car \n\n");
                 BackToMainMenu(player, game);
             }
         }
 
-        public void BuyAdMenuLogic(int value) {
-            if (value <= currentPlayer.account){
+        public void BuyAdMenuLogic(int value){
+            if(value <= currentPlayer.account){
                 currentPlayer.account -= value;
                 List<Client> newClients = new List<Client>();
-                var number = value switch {
+                var number = value switch{
                     0 => 5,
                     1000 => 2,
                     300 => 1,
                     _ => 1,
                 };
-                if(value == 0)
+                if(value == 0){
                     newClients = cg.GenerateClient(help.RandomNumber(number));
-                else{
+                }else{
                     newClients = cg.GenerateClient(number);
                 }
 
-                foreach (Client c in newClients) {
+                foreach(Client c in newClients){
                     clients.Add(c);
                 }
                 Console.WriteLine("You markted your buisness \nNext Player move\n");
                 NextPlayer();
                 BackToMainMenu(currentPlayer, game);
-
-            } else {
+            }else{
                 Console.WriteLine("Not enough money to buy this add \n\n");
                 BackToMainMenu(currentPlayer, game);
             }
-            
         }
 
-        public void SellCarMenuLogic(Car car) {
+        public void SellCarMenuLogic(Car car){
             currentPlayer.account += car.FinalPrice() * 0.98m;
             currentPlayer.ownedCars.Remove(car);
             int numberOfClients = clients.Count;
@@ -173,11 +170,12 @@ namespace CarTrade {
             BackToMainMenu(currentPlayer, game);
         }
 
-        public void CheckHistoryMenuLogic() {
+        //TODO
+        public void CheckHistoryMenuLogic(){
 
         }
         
-        public void CheckPaymentsMenuLogic(decimal sum) {
+        public void CheckPaymentsMenuLogic(decimal sum){
             sum *= 5.0m;
             if(currentPlayer.account >= sum){
                 currentPlayer.account -= sum;
@@ -187,7 +185,7 @@ namespace CarTrade {
                 Console.WriteLine($"Cars were given to repair check if it was a success \nNext Player move\n");
                 NextPlayer();
                 BackToMainMenu(currentPlayer, game);
-            } else{
+            }else{
                 Console.WriteLine("Not enough money to Repair all cars \n\n");
                 BackToMainMenu(currentPlayer, game);
             }
@@ -195,14 +193,14 @@ namespace CarTrade {
 
         public void NextPlayer(){ 
             if(players.Count == 1){
-                currentPlayer.amountOfMoves += 1;
+                currentPlayer.MadeMove();
             }else{ 
                 if(currentPlayer == players[^1]){
-                    currentPlayer.amountOfMoves += 1;
+                    currentPlayer.MadeMove();
                     currentPlayerIndex = 0;
                     currentPlayer = players[0];
                 }else{
-                    currentPlayer.amountOfMoves += 1;
+                    currentPlayer.MadeMove();
                     currentPlayerIndex++;
                     currentPlayer = players[currentPlayerIndex];
                 }

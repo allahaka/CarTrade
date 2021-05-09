@@ -1,24 +1,23 @@
 ﻿namespace CarTrade
 {
-    class Part
-    {
+    class Part{
         public readonly string name;
         public bool needRepairing;
         public readonly int valueIncrease;
         public decimal repairPrice;
 
-        public Part(string name, bool needRepairing, int valueIncrease) {
+        public Part(string name, bool needRepairing, int valueIncrease){
             this.name = name;
             this.needRepairing = needRepairing;
             this.valueIncrease = valueIncrease;
             RepairPrice();
         }
 
-        public void Repair() {
+        public void Repair(){
             this.needRepairing = false;
         }
 
-        public void Destroy() {
+        public void Destroy(){
             this.needRepairing = true;
         }
 

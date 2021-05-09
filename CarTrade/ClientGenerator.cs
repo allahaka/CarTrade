@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace CarTrade {
-    class ClientGenerator {
+    class ClientGenerator{
 
         readonly Helpers help = new Helpers();
 
         public List<Client> GenerateClient(int amount){
             List<Client> clients = new List<Client>();
-            for (int i = 0; i < amount; i++) {
+            for(int i = 0; i < amount; i++){
                 string name = GenerateName();
                 decimal cash = GenerateCash();
                 string interestedInType = GenerateInterestedType();
@@ -38,9 +38,9 @@ namespace CarTrade {
         }
 
         public string[] GenerateInterestedInBrands(){
-            string[] brands = new string[25] { "Fiat", "Honda", "Hyundai", "Kia", "Opel", "Peugeot", "Renault", "Toyota", "Audi", 
+            string[] brands = new string[25] {"Fiat", "Honda", "Hyundai", "Kia", "Opel", "Peugeot", "Renault", "Toyota", "Audi", 
                                                 "BMW", "Jeep", "Land Rover", "Lexus", "Mercedes-Benz", "Volkswagen", "Volvo", "Alfa Romeo", 
-                                                "Aston Martin", "Bugatti", "Dodge", "Ferrari", "Lamborghini", "McLaren", "Rolls-Royce", "Tesla" };
+                                                "Aston Martin", "Bugatti", "Dodge", "Ferrari", "Lamborghini", "McLaren", "Rolls-Royce", "Tesla"};
 
             int firstBrand = help.RandomNumber(brands.Length);
             var list = new List<string>(brands);

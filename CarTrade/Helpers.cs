@@ -4,15 +4,15 @@ using System.Linq;
 using System.Reflection;
 
 namespace CarTrade {
-    class Helpers {
+    class Helpers{
 
         //helper function
-        public int RandomNumber(int max, int min = 0) {
+        public int RandomNumber(int max, int min = 0){
             Random rng = new Random();
             return rng.Next(min, max);
         }
 
-        public decimal RandomDecimal(Random randomNumberGenerator, int precision, int scale) {
+        public decimal RandomDecimal(Random randomNumberGenerator, int precision, int scale){
             if (randomNumberGenerator == null)
                 throw new ArgumentNullException("randomNumberGenerator");
             if (!(precision >= 1 && precision <= 28))
@@ -21,11 +21,11 @@ namespace CarTrade {
                 throw new ArgumentOutOfRangeException("scale", precision, "Scale must be between 0 and precision.");
 
             Decimal d = 0m;
-            for (int i = 0; i < precision; i++) {
+            for(int i = 0; i < precision; i++){
                 int r = randomNumberGenerator.Next(0, 10);
                 d = d * 10m + r;
             }
-            for (int s = 0; s < scale; s++) {
+            for(int s = 0; s < scale; s++){
                 d /= 10m;
             }
             return d;
@@ -45,11 +45,7 @@ namespace CarTrade {
 
         private readonly Random rand = new Random();
 
-        public Color GetRandomColor() {
-            return Colors[rand.Next(0, Colors.Length)];
-        }
-
-        public string GetRandomColorName() {
+        public string GetRandomColorName(){
             return ColorNames[rand.Next(0, Colors.Length)];
         }
 

@@ -2,8 +2,7 @@
 
 namespace CarTrade
 {
-    class Player
-    {
+    class Player{
         public string name;
         public decimal account;
         public List<Car> ownedCars;
