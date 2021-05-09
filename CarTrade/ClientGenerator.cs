@@ -21,7 +21,8 @@ namespace CarTrade {
         }
 
         public string GenerateName(){
-            var lines = File.ReadAllLines(@"E:\C#-projects\CarTrade\CarTrade\CarTrade\first-names.txt");
+            string fullPath = Path.GetFullPath("first-names.txt");
+            var lines = File.ReadAllLines(fullPath);
             var r = new Random();
             var randomLineNumber = r.Next(0, lines.Length - 1);
             return lines[randomLineNumber];
